@@ -160,31 +160,49 @@
     return `Acertei ${acertos} de ${questions.length} perguntas no iiQuiz da iiBrasil!\nVocê consegue superar minha pontuação?`;
   }
 
+  async function copyFullMessage(message) {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(message);
+      return true;
+    }
+
+    const textarea = document.createElement("textarea");
+    textarea.value = message;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    document.body.appendChild(textarea);
+    textarea.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(textarea);
+    return ok;
+  }
+
   async function shareResult() {
-    const text = buildShareText();
-    const shareData = {
-      title: "iiQuiz | iiBrasil",
-      text,
-      url: window.location.href,
-    };
+    const fullMessage = `${buildShareText()}\n${window.location.href}`;
 
     try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-        els.shareStatus.textContent = "Resultado compartilhado!";
+      const copied = await copyFullMessage(fullMessage);
+      if (copied) {
+        els.shareStatus.textContent =
+          "Mensagem copiada! Cole onde quiser compartilhar.";
         els.shareStatus.hidden = false;
-        return;
       }
 
-      await navigator.clipboard.writeText(`${text}\n${window.location.href}`);
-      els.shareStatus.textContent = "Resultado copiado! Cole onde quiser compartilhar.";
-      els.shareStatus.hidden = false;
+      if (navigator.share) {
+        await navigator.share({
+          title: "iiQuiz | iiBrasil",
+          text: fullMessage,
+        });
+        els.shareStatus.textContent = "Resultado compartilhado!";
+        els.shareStatus.hidden = false;
+      } else if (!copied) {
+        throw new Error("copy-failed");
+      }
     } catch (error) {
       if (error && error.name === "AbortError") return;
 
-      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
-        `${text}\n${window.location.href}`
-      )}`;
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(fullMessage)}`;
       window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       els.shareStatus.textContent = "Abrimos o WhatsApp para você compartilhar.";
       els.shareStatus.hidden = false;
