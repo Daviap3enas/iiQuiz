@@ -48,20 +48,20 @@
     }
     if (points >= 70) {
       return {
-        title: "Analista Digital",
+        title: "Analista",
         message:
           "Muito bem! Você tem boa base em tech. Com um pouco mais de prática, chega ao topo.",
       };
     }
     if (points >= 40) {
       return {
-        title: "Explorador Tech",
+        title: "Explorador",
         message:
           "Bom começo! Continue explorando — a tecnologia fica mais clara a cada pergunta.",
       };
     }
     return {
-      title: "Iniciante Curioso",
+      title: "Iniciante",
       message:
         "Todo especialista já foi iniciante. Jogue de novo e fortaleça seus conhecimentos!",
     };
@@ -156,8 +156,8 @@
   }
 
   function buildShareText() {
-    const rank = getRank(score);
-    return `Fiz ${score}/${questions.length * POINTS_PER_HIT} no iiQuiz da iiBrasil e fui classificado como ${rank.title}!\nTeste você também.`;
+    const acertos = score / POINTS_PER_HIT;
+    return `Acertei ${acertos} de ${questions.length} perguntas no iiQuiz da iiBrasil!\nVocê consegue superar minha pontuação?`;
   }
 
   async function shareResult() {
