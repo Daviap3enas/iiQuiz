@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="iiQuiz — quiz de tecnologia da iiBrasil. Inteligência e Informação." />
+  <title>iiQuiz | iiBrasil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-atmosphere" aria-hidden="true"></div>
+
+  <main class="app">
+    <header class="brand-bar">
+      <div class="brand-mark" aria-label="iiBrasil">
+        <img
+          class="brand-logo"
+          src="assets/logo-iibrasil.png"
+          alt="iiBrasil"
+          width="48"
+          height="48"
+        />
+        <span class="brand-text">
+          <strong>Brasil</strong>
+          <small>Inteligência e Informação</small>
+        </span>
+      </div>
+    </header>
+
+    <!-- Tela inicial -->
+    <section id="screen-start" class="screen screen--active" aria-labelledby="quiz-title">
+      <p class="eyebrow">Quiz de tecnologia</p>
+      <h1 id="quiz-title" class="hero-title">iiQuiz</h1>
+      <p class="hero-lead">
+        10 perguntas sobre tecnologia. Mostre o quanto você entende do mundo digital.
+      </p>
+      <button type="button" id="btn-start" class="btn btn--primary">
+        Iniciar
+      </button>
+      <p class="meta">100 pontos possíveis</p>
+    </section>
+
+    <!-- Tela de perguntas -->
+    <section id="screen-quiz" class="screen" aria-live="polite" hidden>
+      <div class="quiz-top">
+        <div class="progress-meta">
+          <span id="question-counter">Pergunta 1 de 10</span>
+          <span id="live-score">0 pts</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="1" id="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <h2 id="question-text" class="question-text"></h2>
+      <div id="options" class="options" role="group" aria-labelledby="question-text"></div>
+      <p id="feedback" class="feedback" hidden></p>
+      <button type="button" id="btn-next" class="btn btn--primary" hidden>
+        Próxima
+      </button>
+    </section>
+
+    <!-- Tela de resultado -->
+    <section id="screen-result" class="screen" hidden>
+      <p class="eyebrow">Seu resultado</p>
+      <h2 id="result-title" class="result-title"></h2>
+      <p id="result-score" class="result-score"></p>
+      <p id="result-message" class="result-message"></p>
+
+      <div class="result-actions">
+        <button type="button" id="btn-restart" class="btn btn--primary">
+          Jogar novamente
+        </button>
+        <button type="button" id="btn-share" class="btn btn--ghost">
+          Compartilhar resultado
+        </button>
+      </div>
+      <p id="share-status" class="share-status" hidden></p>
+      <a class="site-link" href="https://iibrasil.com.br/" target="_blank" rel="noopener noreferrer">
+        Conheça a iiBrasil →
+      </a>
+    </section>
+  </main>
+
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
