@@ -183,28 +183,16 @@
 
     try {
       const copied = await copyFullMessage(fullMessage);
-      if (copied) {
-        els.shareStatus.textContent =
-          "Mensagem copiada! Cole onde quiser compartilhar.";
-        els.shareStatus.hidden = false;
-      }
+      if (!copied) throw new Error("copy-failed");
 
-      if (navigator.share) {
-        await navigator.share({
-          title: "iiQuiz | iiBrasil",
-          text: fullMessage,
-        });
-        els.shareStatus.textContent = "Resultado compartilhado!";
-        els.shareStatus.hidden = false;
-      } else if (!copied) {
-        throw new Error("copy-failed");
-      }
+      els.shareStatus.textContent =
+        "Mensagem copiada! Cole no WhatsApp, Instagram ou onde quiser.";
+      els.shareStatus.hidden = false;
     } catch (error) {
-      if (error && error.name === "AbortError") return;
-
       const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(fullMessage)}`;
       window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-      els.shareStatus.textContent = "Abrimos o WhatsApp para você compartilhar.";
+      els.shareStatus.textContent =
+        "Não foi possível copiar. Abrimos o WhatsApp com a mensagem pronta.";
       els.shareStatus.hidden = false;
     }
   }
