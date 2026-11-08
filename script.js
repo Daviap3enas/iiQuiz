@@ -24,6 +24,8 @@
     restartBtn: document.getElementById("btn-restart"),
     shareBtn: document.getElementById("btn-share"),
     shareStatus: document.getElementById("share-status"),
+    sharePreview: document.getElementById("share-preview"),
+    sharePreviewLabel: document.getElementById("share-preview-label"),
   };
 
   let index = 0;
@@ -129,12 +131,20 @@
     els.nextBtn.focus();
   }
 
+  function resetShareUI() {
+    els.shareStatus.hidden = true;
+    els.shareStatus.textContent = "";
+    els.sharePreview.hidden = true;
+    els.sharePreviewLabel.hidden = true;
+    els.sharePreview.value = "";
+  }
+
   function showResult() {
     const rank = getRank(score);
     els.resultTitle.textContent = rank.title;
     els.resultScore.textContent = `${score} / ${questions.length * POINTS_PER_HIT}`;
     els.resultMessage.textContent = rank.message;
-    els.shareStatus.hidden = true;
+    resetShareUI();
     showScreen("result");
   }
 
@@ -155,46 +165,66 @@
     renderQuestion();
   }
 
-  function buildShareText() {
+  function buildShareMessage() {
     const acertos = score / POINTS_PER_HIT;
-    return `Acertei ${acertos} de ${questions.length} perguntas no iiQuiz da iiBrasil!\nVocê consegue superar minha pontuação?`;
+    return [
+      `Acertei ${acertos} de ${questions.length} perguntas no iiQuiz da iiBrasil!`,
+      "Você consegue superar minha pontuação?",
+      "",
+      window.location.href,
+    ].join("\n");
   }
 
-  async function copyFullMessage(message) {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(message);
-      return true;
-    }
+  function showSharePreview(message) {
+    els.sharePreview.value = message;
+    els.sharePreview.hidden = false;
+    els.sharePreviewLabel.hidden = false;
+    els.sharePreview.focus();
+    els.sharePreview.select();
+  }
 
-    const textarea = document.createElement("textarea");
-    textarea.value = message;
-    textarea.setAttribute("readonly", "");
-    textarea.style.position = "fixed";
-    textarea.style.left = "-9999px";
-    document.body.appendChild(textarea);
-    textarea.select();
-    const ok = document.execCommand("copy");
-    document.body.removeChild(textarea);
-    return ok;
+  function copyFullMessage(message) {
+    showSharePreview(message);
+
+    try {
+      const selected = document.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(els.sharePreview);
+      selected.removeAllRanges();
+      selected.addRange(range);
+      els.sharePreview.select();
+      els.sharePreview.setSelectionRange(0, message.length);
+      return document.execCommand("copy");
+    } catch (error) {
+      return false;
+    }
   }
 
   async function shareResult() {
-    const fullMessage = `${buildShareText()}\n${window.location.href}`;
+    const fullMessage = buildShareMessage();
+    let copied = copyFullMessage(fullMessage);
 
-    try {
-      const copied = await copyFullMessage(fullMessage);
-      if (!copied) throw new Error("copy-failed");
+    if (!copied && navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(fullMessage);
+        copied = true;
+        showSharePreview(fullMessage);
+      } catch (error) {
+        copied = false;
+      }
+    }
 
+    if (copied) {
       els.shareStatus.textContent =
         "Mensagem copiada! Cole no WhatsApp, Instagram ou onde quiser.";
       els.shareStatus.hidden = false;
-    } catch (error) {
-      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(fullMessage)}`;
-      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-      els.shareStatus.textContent =
-        "Não foi possível copiar. Abrimos o WhatsApp com a mensagem pronta.";
-      els.shareStatus.hidden = false;
+      return;
     }
+
+    els.shareStatus.textContent =
+      "Selecione o texto abaixo e copie (Ctrl+C ou toque longo).";
+    els.shareStatus.hidden = false;
+    showSharePreview(fullMessage);
   }
 
   els.startBtn.addEventListener("click", startQuiz);

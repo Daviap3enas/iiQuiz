@@ -335,6 +335,34 @@ body {
   margin: 1.75rem 0 1rem;
 }
 
+.share-preview-label {
+  display: block;
+  margin: 0.25rem 0 0.45rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--brand-muted);
+}
+
+.share-preview {
+  display: block;
+  width: 100%;
+  margin: 0 0 0.75rem;
+  padding: 0.9rem 1rem;
+  border: 1.5px solid var(--brand-line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+  color: var(--brand-ink);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  resize: none;
+}
+
+.share-preview:focus {
+  outline: 2px solid rgba(241, 137, 29, 0.45);
+  outline-offset: 2px;
+}
+
 .share-status {
   margin: 0 0 1rem;
   font-size: 0.92rem;
