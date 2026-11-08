@@ -32,18 +32,29 @@
 
     <!-- Tela inicial -->
     <section id="screen-start" class="screen screen--active" aria-labelledby="quiz-title">
-      <p class="eyebrow">Quiz de tecnologia</p>
-      <h1 id="quiz-title" class="hero-title">iiQuiz</h1>
-      <p class="hero-lead">
-        10 perguntas sobre tecnologia. Mostre o quanto você entende do mundo digital.
-      </p>
-      <button type="button" id="btn-start" class="btn btn--primary">
-        Iniciar
-      </button>
-      <p class="meta">100 pontos possíveis</p>
-      <a class="site-link" href="https://iibrasil.com.br/" target="_blank" rel="noopener noreferrer">
-        Conheça a iiBrasil →
-      </a>
+      <div class="hero-layout">
+        <div class="hero-copy">
+          <p class="eyebrow">Quiz de tecnologia</p>
+          <h1 id="quiz-title" class="hero-title">iiQuiz</h1>
+          <p class="hero-lead">
+            10 perguntas sobre tecnologia. Mostre o quanto você entende do mundo digital.
+          </p>
+          <button type="button" id="btn-start" class="btn btn--primary">
+            Iniciar
+          </button>
+          <p class="meta">100 pontos possíveis</p>
+          <a class="site-link" href="https://iibrasil.com.br/" target="_blank" rel="noopener noreferrer">
+            Conheça a iiBrasil →
+          </a>
+        </div>
+        <img
+          class="mascot mascot--start"
+          src="assets/mascote-inicio.png"
+          alt="Mascote da iiBrasil"
+          width="563"
+          height="433"
+        />
+      </div>
     </section>
 
     <!-- Tela de perguntas -->
@@ -68,23 +79,34 @@
 
     <!-- Tela de resultado -->
     <section id="screen-result" class="screen" hidden>
-      <p class="eyebrow">Seu resultado</p>
-      <h2 id="result-title" class="result-title"></h2>
-      <p id="result-score" class="result-score"></p>
-      <p id="result-message" class="result-message"></p>
+      <div class="result-layout">
+        <img
+          class="mascot mascot--result"
+          src="assets/mascote-resultado.png"
+          alt="Personagem comemorando o resultado"
+          width="533"
+          height="680"
+        />
+        <div class="result-copy">
+          <p class="eyebrow">Seu resultado</p>
+          <h2 id="result-title" class="result-title"></h2>
+          <p id="result-score" class="result-score"></p>
+          <p id="result-message" class="result-message"></p>
 
-      <div class="result-actions">
-        <button type="button" id="btn-restart" class="btn btn--primary">
-          Jogar novamente
-        </button>
-        <button type="button" id="btn-share" class="btn btn--ghost">
-          Compartilhar resultado
-        </button>
+          <div class="result-actions">
+            <button type="button" id="btn-restart" class="btn btn--primary">
+              Jogar novamente
+            </button>
+            <button type="button" id="btn-share" class="btn btn--ghost">
+              Compartilhar resultado
+            </button>
+          </div>
+          <p id="share-status" class="share-status" hidden></p>
+          <a class="site-link" href="https://iibrasil.com.br/" target="_blank" rel="noopener noreferrer">
+            Conheça a iiBrasil →
+          </a>
+        </div>
       </div>
-      <p id="share-status" class="share-status" hidden></p>
-      <a class="site-link" href="https://iibrasil.com.br/" target="_blank" rel="noopener noreferrer">
-        Conheça a iiBrasil →
-      </a>
     </section>
   </main>
 

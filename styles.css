@@ -155,6 +155,18 @@ body {
   color: transparent;
 }
 
+.hero-layout,
+.result-layout {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.hero-copy,
+.result-copy {
+  min-width: 0;
+}
+
 .hero-lead,
 .result-message {
   margin: 1rem 0 1.75rem;
@@ -167,6 +179,71 @@ body {
   margin: 1rem 0 0;
   font-size: 0.92rem;
   color: var(--brand-muted);
+}
+
+.mascot {
+  display: block;
+  width: min(100%, 220px);
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 28px rgba(47, 47, 47, 0.16));
+  animation: mascot-bob 3.2s ease-in-out infinite;
+}
+
+.mascot--start {
+  width: min(100%, 200px);
+}
+
+.mascot--result {
+  width: min(100%, 230px);
+  animation-name: mascot-cheer;
+}
+
+@keyframes mascot-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes mascot-cheer {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(-2deg);
+  }
+}
+
+@media (min-width: 640px) {
+  .hero-layout {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 1rem;
+  }
+
+  .result-layout {
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 1.25rem;
+  }
+
+  .mascot {
+    margin: 0;
+  }
+
+  .mascot--start {
+    width: min(100%, 240px);
+    justify-self: end;
+  }
+
+  .mascot--result {
+    width: min(100%, 260px);
+    justify-self: start;
+  }
 }
 
 .btn {
